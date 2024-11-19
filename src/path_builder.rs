@@ -279,10 +279,19 @@ impl PathBuilder {
     /// For a positive `sweep_angle` the sweep is done clockwise, for a negative
     /// `sweep_angle` the sweep is done counterclockwise.
     pub fn arc(&mut self, x: f32, y: f32, r: f32, start_angle: f32, sweep_angle: f32) {
+        self.ellipse(x, y, r, r, start_angle, sweep_angle);
+    }
+
+    /// Adds an arc approximated by quadratic beziers with center `x`, `y`
+    /// and radius components `x_radius`, `y_radius` starting at `start_angle`
+    /// and sweeping by `sweep_angle`. For a positive `sweep_angle` the sweep
+    /// is done clockwise, for a negative `sweep_angle` the sweep is done
+    /// counterclockwise.
+    pub fn ellipse(&mut self, x: f32, y: f32, radius_x: f32, radius_y: f32, start_angle: f32, sweep_angle: f32) {
         //XXX: handle the current point being the wrong spot
         let a: Arc<f32> = Arc {
             center: Point::new(x, y),
-            radii: Vector::new(r, r),
+            radii: Vector::new(radius_x, radius_y),
             start_angle: Angle::radians(start_angle),
             sweep_angle: Angle::radians(sweep_angle),
             x_rotation: Angle::zero(),
